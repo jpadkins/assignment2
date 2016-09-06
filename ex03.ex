@@ -55,7 +55,9 @@ defmodule Ex03 do
 
   """
 
-  def odd_even . . . "your code"
+  def odd_even(numbers) do
+    Enum.map(numbers, &(if Integer.is_even(&1), do: :even, else: :odd))
+  end
 
 
   ##############################################################################
@@ -77,7 +79,9 @@ defmodule Ex03 do
 
   """
 
-  def list_contains . .. "your code"
+  def list_contains(list, value) do
+    Enum.member?(list, value)
+  end
 
   ##############################################################################
   # 3.3:  5 points #
@@ -101,7 +105,14 @@ defmodule Ex03 do
 
   """
 
-  def list_equal . . . "your code"
+  def list_equal(list1, list2) do
+    if length(list1) == length(list2) do
+      Enum.zip(list1, list2)
+      |> Enum.reduce_while(true, &(if !&2, do: {:halt, &2}, else: {:cont, elem(&1, 0) == elem(&1, 1)}))
+    else
+      false
+    end
+  end
 
 
 
@@ -149,7 +160,26 @@ defmodule Ex03 do
   Think a little about a nice way to lay this code out.
   """
 
-  def won . . . "your code"
+  def won(board) do
+    {e00, e10, e20, e01, e11, e21, e02, e12, e22} = board
+    winner = false
+
+    # horizontal cases
+    winner = if list_equal(List.duplicate(e00, 3), [e00, e10, e20]), do: e00, else: winner
+    winner = if list_equal(List.duplicate(e01, 3), [e01, e11, e21]), do: e01, else: winner
+    winner = if list_equal(List.duplicate(e02, 3), [e02, e12, e22]), do: e02, else: winner
+
+    # vertical cases
+    winner = if list_equal(List.duplicate(e00, 3), [e00, e01, e02]), do: e00, else: winner
+    winner = if list_equal(List.duplicate(e10, 3), [e10, e11, e12]), do: e10, else: winner
+    winner = if list_equal(List.duplicate(e20, 3), [e20, e21, e22]), do: e20, else: winner
+
+    # diagonal cases
+    winner = if list_equal(List.duplicate(e00, 3), [e00, e11, e22]), do: e00, else: winner
+    winner = if list_equal(List.duplicate(e20, 3), [e20, e11, e02]), do: e20, else: winner
+
+    if winner == :x || winner == :o, do: winner, else: false
+  end
 
 
   ###########################
