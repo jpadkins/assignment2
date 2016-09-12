@@ -81,7 +81,10 @@ defmodule Ex04 do
   """
 
   def even_odd(list) do
-    reduce(list, {[], []}, &( if Integer.is_even(&1), do: { List.insert_at(elem(&2, 0), -1, &1), elem(&2, 1)}, else: { elem(&2, 0), List.insert_at(elem(&2, 1), -1, &1)}))
+    reduce(list, {[], []}, &( if Integer.is_even(&1),
+                              do: { List.insert_at(elem(&2, 0), -1, &1), elem(&2, 1)},
+                              else: { elem(&2, 0), List.insert_at(elem(&2, 1), -1, &1)}
+                            ))
   end
 
 
